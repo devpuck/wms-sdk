@@ -2,6 +2,7 @@ package com.wms.sdk.account;
 
 import com.wms.api.account.AccountVo;
 import com.wms.api.transaction.WarehouseTransactionsVo;
+import com.wms.api.warehouse.WarehouseVo;
 import com.xac.core.api.ApiResult;
 import com.xac.core.util.ApiResultUtil;
 import org.springframework.http.HttpEntity;
@@ -55,6 +56,33 @@ public class QueryAccountManager
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(URL+"account/query/querySameAccount", accountVo, String.class);
         AccountVo vo = ApiResultUtil.jsonToBo(responseEntity.getBody(), AccountVo.class);
         //System.out.println("VVVVVVVO:" + vo.getWarehouseCode());
+        return vo;
+    }
+
+    public AccountVo queryAccountByAccountCode(String accountCode)
+    {
+        RestTemplate restTemplate = new RestTemplate();
+        MultiValueMap<String, Object> postParameters = new LinkedMultiValueMap<>();
+        postParameters.add("accountCode", accountCode);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<>(postParameters, headers);
+        ResponseEntity<String> responseEntity = restTemplate
+                .postForEntity(URL+"/account/query/queryByAccountCode", httpEntity,String.class);
+        AccountVo vo = ApiResultUtil.jsonToBo(responseEntity.getBody(), AccountVo.class);
+        //System.out.println("VVVVVVVO:" + vo.getWarehouseCode());
+        return vo;
+    }
+
+    public AccountVo queryAccountById(String id)
+    {
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate
+                .getForEntity(URL+"warehouse/info/" + id, String.class);
+        AccountVo vo = ApiResultUtil.jsonToBo(responseEntity.getBody(), AccountVo.class);
+//        System.out.println("VVVVVVVO:" + vo.getWarehouseCode());
         return vo;
     }
 }

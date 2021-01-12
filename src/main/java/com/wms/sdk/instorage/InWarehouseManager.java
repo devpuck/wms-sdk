@@ -57,12 +57,12 @@ public class InWarehouseManager
         return code;
     }
 
-    public List<InWarehouseBillVo> queryInWarehouseBillByProduction(String productionCode, String state)
+    public List<InWarehouseBillVo> queryInWarehouseBillByProduction(String productionCode, String status)
     {
         RestTemplate restTemplate = new RestTemplate();
         MultiValueMap<String, Object> postParameters = new LinkedMultiValueMap<>();
         postParameters.add("productionCode", productionCode);
-        postParameters.add("state", state);
+        postParameters.add("status", status);
 
         HttpHeaders headers = new HttpHeaders();
 
